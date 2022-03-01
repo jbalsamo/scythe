@@ -5,3 +5,10 @@
  *  @version 1.0
  *  @created 2022-03-01
  */
+
+const datasource = {
+    config: {
+    },
+    data: {
+    }
+}
