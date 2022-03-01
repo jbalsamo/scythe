@@ -1,5 +1,5 @@
 /**
- * @name sythe.js
+ * @name scythe.js
  * @fileOverview Library to create graphs and tables from data retrieved from the server.
  * @author <a href="mailto:joseph.balsamo@stonybrook.edu">Joseph Balsamo</a>
  * @version 1.0
