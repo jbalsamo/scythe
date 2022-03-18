@@ -8,44 +8,74 @@
 
 const datasource = [
     {
-        xfilter: [
+        'd3': [
             {
                 'id': 1,
-                'type': 'dimension',
+                'name': 'date',
+                'type': 'parsedate',
+                'fields': [
+                    'date'
+                ]
+            },
+            {
+                'id': 2,
+                'name': 'yearTotal',
+                'type': 'sum',
+                'fields': [
+                    'http_404',
+                    'http_200',
+                    'http_302'
+                ]
+            },
+            {
+                'id': 3,
+                'name': 'year',
+                'type': 'getFullYear',
+                'fields': [
+                    'date'
+                ]
+            }
+        ],
+        'xfilter': [
+            {
+                'id': 1,
                 'name': 'yearDim',
+                'type': 'dimension',
                 'dim_field': 'year',
             },
             {
                 'id': 2,
+                'name': 'yearTotal',
                 'type': 'group',
                 'dimension': 'yearDim',
-                'name': 'yearTotal',
                 'field_function': 'return',
 
             },
             {
                 'id': 3,
-                'type': 'dimension',
                 'name': 'dateDim',
+                'type': 'dimension',
                 'dim_field': 'date',
             },
             {
                 'id': 4,
+                'name': 'minDate',
                 'type': 'bottom',
                 'dimension': 'yearDim',
                 'field': 'date'
             },
             {
                 'id': 5,
-                'dimension': 'yearDim',
+                'name': 'maxDate',
                 'type': 'top',
+                'dimension': 'yearDim',
                 'field': 'date'
             },
             {
                 'id':  6,
+                'name': 'hits',
                 'type': 'group',
                 'dimension': 'yearDim',
-                'name': 'hits',
                 'group_method': 'reduceSum',
                 'field_function': 'pluck',
                 'group_field': 'total',
@@ -75,12 +105,66 @@ const datasource = [
                 'group_field': 'date'
             },
         ],
-        config: {
-            'type': 'line',
-            'dimension': "yearDim",
-            'group': "yearGroup"
-        },
-        data: {
+        'config': [
+            {
+                'id': 1,
+                'name': 'hitsLineChart',
+                'dom_id': '#chart-line-hitsperday',
+                'type': 'lineChart',
+                'width': 500,
+                'height': 300,
+                'renderArea': true,
+                'brushOn': true,
+                'dimension': "dateDim",
+                'group': {
+                    'field': "status_200",
+                    'label': '200',
+                },
+                'stack': {
+                    'field': "status_302",
+                    'label': '302',
+                },
+                'stack': {
+                    'field': "status_404",
+                    'label': '404',
+                },
+                'x': {
+                    'scale': {
+                        'd3': [
+                            {
+                                'id': 1,
+                                'name': 'xScale',
+                                'type': 'scaleTime',
+                                'function': 'domain',
+                                'min': 'minDate',
+                                'max': 'maxDate',
+                            }
+                        ]
+                    }
+                },
+                'yAxisLabel': 'Hits per day',
+                'legend': {
+                    'x': 50,
+                    'y': 10,
+                    'itemHeight': 13,
+                    'gap': 5,
+                },
+            },
+            {
+                'id': 2,
+                'name': 'yearRingChart',
+                'dom_id': '#chart-ring-year',
+                'type': 'pieChart',
+                'width': 250,
+                'height': 250,
+                'dimension': "yearDim",
+                'group': {
+                    'field': "year_total",
+                },
+                'innerRadius': 0
+            }
+        ],
+        'data': {
         },
     },
 ];
