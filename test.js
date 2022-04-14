@@ -1,5 +1,5 @@
-const gids = [1,2,3];
-const tids = [1,2,3];
+const gids = ['chart-ring-year','chart-line-hitsperday'];
+const tids = [];
 
 const ds = [
     {
@@ -15,7 +15,7 @@ const ds = [
             },
             {
                 'id': 2,
-                'name': 'yearTotal',
+                'name': 'total',
                 'type': 'sum',
                 'fields': [
                     'http_404',
@@ -44,8 +44,9 @@ const ds = [
                 'name': 'yearTotal',
                 'type': 'group',
                 'dimension': 'yearDim',
+                'group_method': 'reduceSum',
                 'field_function': 'return',
-
+                'group_field': 'total'
             },
             {
                 'id': 3,
@@ -57,14 +58,14 @@ const ds = [
                 'id': 4,
                 'name': 'minDate',
                 'type': 'bottom',
-                'dimension': 'yearDim',
+                'dimension': 'dateDim',
                 'field': 'date'
             },
             {
                 'id': 5,
                 'name': 'maxDate',
                 'type': 'top',
-                'dimension': 'yearDim',
+                'dimension': 'dateDim',
                 'field': 'date'
             },
             {
@@ -80,25 +81,28 @@ const ds = [
                 'id': 7,
                 'type': 'group',
                 'name': 'status_200',
+                'dimension': 'dateDim',
                 'group_method': 'reduceSum',
                 'field_function': 'return',
-                'group_field': 'date'
+                'group_field': 'http_200'
             },
             {
                 'id': 8,
                 'type': 'group',
                 'name': 'status_302',
+                'dimension': 'dateDim',
                 'group_method': 'reduceSum',
                 'field_function': 'return',
-                'group_field': 'date'
+                'group_field': 'http_302'
             },
             {
                 'id': 9,
                 'type': 'group',
                 'name': 'status_404',
+                'dimension': 'dateDim',
                 'group_method': 'reduceSum',
                 'field_function': 'return',
-                'group_field': 'date'
+                'group_field': 'http_404'
             },
         ],
         'config': [
@@ -189,4 +193,18 @@ function print_filter(filter) {
 }
 
 var mySc = new Scythe(ds[0],gids,tids);
-print_filter(mySc.data);
+console.log("All Hits by Year: ");
+print_filter(mySc.xfValues['hits']);
+console.log("Year Totals: ");
+print_filter(mySc.xfValues['yearTotal']);
+console.log("200: ");
+print_filter(mySc.xfValues['status_200']);
+console.log("302: ");
+print_filter(mySc.xfValues['status_302']);
+console.log("404: ");
+print_filter(mySc.xfValues['status_404']);
+console.log("date min: ");
+print_filter(mySc.xfValues['minDate']);
+console.log("date max: ");
+print_filter(mySc.xfValues['maxDate']);
+

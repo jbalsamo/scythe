@@ -7,3 +7,26 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.logo {
+    margin: 0 auto;
+    width: auto;
+    height: auto;
+    grid-column: 1 / 2;
+
+}
+
+.head-text {
+    margin: 0 auto;
+    padding: 2vh;
+    margin: 1vh;
+    text-align: center;
+    grid-column: 2 / 7;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    grid-gap: 10px;
+    padding: 10px;
+}

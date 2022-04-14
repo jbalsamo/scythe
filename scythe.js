@@ -7,9 +7,9 @@
  */
 class Scythe {
     #d3Values = [];
-    #xfValues = [];
-    #graphs = [];
-    #tables = [];
+    xfValues = [];
+    graphs = [];
+    tables = [];
 
     constructor(datasource,gids,tids) {
         this.d3 = datasource.d3;
@@ -19,6 +19,14 @@ class Scythe {
         this.gids = gids;
         this.tids = tids;
         this.init();
+    }
+
+    print_filter(filter) {
+        var f=eval(filter);
+        if (typeof(f.length) != "undefined") {}else{}
+        if (typeof(f.top) != "undefined") {f=f.top(Infinity);}else{}
+        if (typeof(f.dimension) != "undefined") {f=f.dimension(function(d) { return "";}).top(Infinity);}else{}
+        console.log(filter+"("+f.length+") = "+JSON.stringify(f).replace("[","[\n\t").replace(/}\,/g,"},\n\t").replace("]","\n]"));
     }
 
     init() {
@@ -48,6 +56,31 @@ class Scythe {
         });
 
         // Process xfilter values
-        this.xfilter.forEach(d => {});
+        this.xfilter.forEach(d => {
+            if(d.type == 'dimension') {
+                this.xfValues[d.name] = this.ndx.dimension(e => (e[d.dim_field]));
+            }
+            if(this.xfValues[d.name] != undefined) {
+               this.print_filter(this.xfValues[d.name]);
+            }
+
+            if(d.type == 'group') {
+                if(d.group_method == 'reduceSum') {
+                    if(d.field_function == 'return') {
+                        this.xfValues[d.name] = this.xfValues[d.dimension].group().reduceSum(e => (e[d.group_field]));
+                    } else if(d.field_function == 'pluck') {
+                        this.xfValues[d.name] = this.xfValues[d.dimension].group().reduceSum(dc.pluck(d.group_field));
+                    }
+                }
+            }
+
+            if(d.type == 'bottom') {
+                this.xfValues[d.name] = this.xfValues[d.dimension].bottom(1)[0][d.field];
+            }
+
+            if(d.type == 'top') {
+                this.xfValues[d.name] = this.xfValues[d.dimension].top(1)[0][d.field];
+            }
+        });
     }
 }
