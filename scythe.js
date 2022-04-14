@@ -22,7 +22,6 @@ class Scythe {
     }
 
     init() {
-        //console.log(this.data);
         this.ndx = crossfilter(this.data);
 
         // Process d3 values
@@ -43,7 +42,6 @@ class Scythe {
             }
             if(d.type == 'getFullYear') {
                 this.data.forEach(e => {
-                    //console.log(e['date']);
                     e[d.name] = e[d.fields[0]].getFullYear();
                 });
             }
@@ -53,5 +51,3 @@ class Scythe {
         this.xfilter.forEach(d => {});
     }
 }
-
-//export default Scythe;

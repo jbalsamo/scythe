@@ -2,9 +2,11 @@
     "cSpell.words": [
         "crossfilter",
         "datasource",
+        "gids",
         "groupreduce",
         "hitsperday",
         "parsedate",
+        "tids",
         "xfilter"
     ]
 }
