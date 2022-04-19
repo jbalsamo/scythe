@@ -1,3 +1,4 @@
+// const gids = ['chart-ring-year'];
 const gids = ['chart-ring-year','chart-line-hitsperday'];
 const tids = [];
 
@@ -145,12 +146,13 @@ const ds = [
                     }
                 },
                 'yAxisLabel': 'Hits per day',
+                'xAxisLabel': 'Date',
                 'legend': {
                     'x': 50,
                     'y': 10,
                     'itemHeight': 13,
                     'gap': 5,
-                },
+                }
             },
             {
                 'id': 2,
@@ -161,7 +163,7 @@ const ds = [
                 'height': 250,
                 'dimension': 'yearDim',
                 'group': {
-                    'field': 'year_total',
+                    'field': 'yearTotal',
                 },
                 'innerRadius': 0
             }
@@ -184,6 +186,7 @@ const ds = [
 ];
 
 
+
 function print_filter(filter) {
     var f=eval(filter);
     if (typeof(f.length) != 'undefined') {}else{}
@@ -193,6 +196,7 @@ function print_filter(filter) {
 }
 
 var mySc = new Scythe(ds[0],gids,tids);
+
 console.log("All Hits by Year: ");
 print_filter(mySc.xfValues['hits']);
 console.log("Year Totals: ");
@@ -207,4 +211,3 @@ console.log("date min: ");
 print_filter(mySc.xfValues['minDate']);
 console.log("date max: ");
 print_filter(mySc.xfValues['maxDate']);
-

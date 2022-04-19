@@ -30,3 +30,38 @@ body {
     grid-gap: 10px;
     padding: 10px;
 }
+
+pre#data {
+    display: none;
+}
+
+.dc-table-column {
+    overflow-x: auto;
+    width: 7em;
+}
+
+table#dc-data-table {
+    padding: 50px;
+    margin: 25px 25px 25px 50px;
+}
+
+.header {
+    font-weight: bold;
+    text-align: center;
+}
+
+tbody tr.dc-table-group {
+    text-align: center;
+    border: 2px solid black;
+    background-color: lightgreen;
+}
+
+#dc-data-table tr.header th {
+    text-align: center;
+    border: 2px solid black;
+    background-color: lightsteelblue;
+}
+
+.dc-table-row td {
+    border: 1px solid black;
+}

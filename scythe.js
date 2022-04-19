@@ -6,7 +6,7 @@
  * @created 2020-03-01
  */
 class Scythe {
-    #d3Values = [];
+    d3Values = [];
     xfValues = [];
     graphs = [];
     tables = [];
@@ -82,5 +82,71 @@ class Scythe {
                 this.xfValues[d.name] = this.xfValues[d.dimension].top(1)[0][d.field];
             }
         });
+
+        //Process graphs
+        this.config.forEach(conf => {
+            if(conf.type == 'lineChart') {
+                this.graphs[conf.id] = dc.lineChart(conf.dom_id);
+                if(conf.width != undefined) {
+                    this.graphs[conf.id].width(conf.width);
+                }
+                if(conf.height != undefined) {
+                    this.graphs[conf.id].height(conf.height);
+                }
+                if(conf.dimension != undefined) {
+                    this.graphs[conf.id].dimension(conf.dimension);
+                }
+                if(conf.renderArea != undefined) {
+                    this.graphs[conf.id].renderArea(conf.renderArea);
+                }
+                if(conf.brushOn != undefined) {
+                    this.graphs[conf.id].brushOn(conf.brushOn);
+                }
+                if(conf.group != undefined) {
+                    this.graphs[conf.id].group(this.xfValues[conf.group.field],conf.group.label);
+                }
+                if(conf.stack != undefined) {
+                    conf.stack.forEach(s => {
+                        this.graphs[conf.id].stack(this.xfValues[s.field],s.label);
+                    });
+                }
+                if(conf.x != undefined) {
+                    if(conf.x.scale != undefined) {
+                        if(conf.x.scale.d3 != undefined) {
+                            this.graphs[conf.id].x(d3.scaleTime().domain([this.xfValues['minDate'],this.xfValues['maxDate']]));
+                        }
+                    }
+                }
+                if(conf.yAxisLabel != undefined) {
+                    this.graphs[conf.id].yAxisLabel(conf.yAxisLabel);
+                }
+                if(conf.xAxisLabel != undefined) {
+                    this.graphs[conf.id].xAxisLabel(conf.xAxisLabel);
+                }
+                if(conf.legend != undefined) {
+                    this.graphs[conf.id].legend(dc.legend().x(conf.legend.x).y(conf.legend.y).itemHeight(conf.legend.itemHeight).gap(conf.legend.gap));
+                }
+                // this.graphs[conf.id].render();
+            }
+            if(conf.type == 'pieChart') {
+                this.graphs[conf.id] = dc.pieChart(conf.dom_id);
+                if(conf.width != undefined) {
+                    this.graphs[conf.id].width(conf.width);
+                }
+                if(conf.height != undefined) {
+                    this.graphs[conf.id].height(conf.height);
+                }
+                if(conf.dimension != undefined) {
+                    this.graphs[conf.id].dimension(conf.dimension);
+                }
+                if(conf.group != undefined) {
+                    this.graphs[conf.id].group(this.xfValues[conf.group.field]);
+                }
+                if(conf.innerRadius != undefined) {
+                    this.graphs[conf.id].innerRadius(conf.innerRadius);
+                }
+            }
+        });
+        dc.renderAll();
     }
 }
