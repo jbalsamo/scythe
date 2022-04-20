@@ -85,6 +85,7 @@ class Scythe {
 
         //Process graphs
         this.config.forEach(conf => {
+            console.log(this.xfValues);
             if(conf.type == 'lineChart') {
                 this.graphs[conf.id] = dc.lineChart(conf.dom_id);
                 if(conf.width != undefined) {
@@ -146,7 +147,22 @@ class Scythe {
                     this.graphs[conf.id].innerRadius(conf.innerRadius);
                 }
             }
+            dc.registerChart(conf.dom_id.replace('#',''),"group1")
         });
         dc.renderAll();
+        console.log(this.xfValues);
     }
+
+    return_data() {
+        return this.data;
+    }
+
+    return_graphs() {
+        return this.graphs;
+    }
+
+    return_xfValues() {
+        return this.xfValues;
+    }
+
 }

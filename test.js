@@ -197,6 +197,7 @@ function print_filter(filter) {
 
 var mySc = new Scythe(ds[0],gids,tids);
 
+
 console.log("All Hits by Year: ");
 print_filter(mySc.xfValues['hits']);
 console.log("Year Totals: ");
@@ -211,3 +212,5 @@ console.log("date min: ");
 print_filter(mySc.xfValues['minDate']);
 console.log("date max: ");
 print_filter(mySc.xfValues['maxDate']);
+
+console.log(mySc.return_xfValues());
