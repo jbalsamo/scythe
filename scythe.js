@@ -10,6 +10,7 @@ class Scythe {
     xfValues = [];
     graphs = [];
     tables = [];
+    ndx = [];
 
     constructor(datasource,gids,tids) {
         this.d3 = datasource.d3;
@@ -147,7 +148,7 @@ class Scythe {
                     this.graphs[conf.id].innerRadius(conf.innerRadius);
                 }
             }
-            dc.registerChart(conf.dom_id.replace('#',''),"group1")
+            // dc.registerChart(conf.dom_id.replace('#',''),"group1")
         });
         dc.renderAll();
         console.log(this.xfValues);

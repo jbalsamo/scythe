@@ -185,8 +185,6 @@ const ds = [
     },
 ];
 
-
-
 function print_filter(filter) {
     var f=eval(filter);
     if (typeof(f.length) != 'undefined') {}else{}
@@ -214,3 +212,5 @@ console.log("date max: ");
 print_filter(mySc.xfValues['maxDate']);
 
 console.log(mySc.return_xfValues());
+print_filter(mySc.xfValues['yearDim']);
+print_filter(mySc.xfValues['dateDim']);
