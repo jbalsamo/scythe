@@ -10,7 +10,7 @@ class Scythe {
     xfValues = [];
     graphs = [];
     tables = [];
-    ndx = [];
+    ndx = null;
 
     constructor(datasource,gids,tids) {
         this.d3 = datasource.d3;
@@ -32,7 +32,6 @@ class Scythe {
 
     init() {
         this.ndx = crossfilter(this.data);
-
         // Process d3 values
         this.d3.forEach(d => {
             if(d.type == 'parsedate') {
@@ -148,10 +147,20 @@ class Scythe {
                     this.graphs[conf.id].innerRadius(conf.innerRadius);
                 }
             }
+            this.graphs[conf.id].on('filtered.monitor', function(chart, filter) {
+                console.log(filter);
+            });
+            this.graphs[conf.id].on('renderlet', function(chart) {
+                chart.selectAll('rect').on('click', function(d) {
+                   console.log('click!', d);
+                });
+             });
+
             // dc.registerChart(conf.dom_id.replace('#',''),"group1")
         });
         dc.renderAll();
         console.log(this.xfValues);
+
     }
 
     return_data() {
