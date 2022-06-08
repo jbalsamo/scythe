@@ -151,10 +151,10 @@ class Scythe {
                 console.log(filter);
             });
             this.graphs[conf.id].on('renderlet', function(chart) {
-                chart.selectAll('rect').on('click', function(d) {
-                   console.log('click!', d);
+                chart.selectAll('rect').on("click", function(d) {
+                    console.log("click!", d);
                 });
-             });
+            });
 
             // dc.registerChart(conf.dom_id.replace('#',''),"group1")
         });

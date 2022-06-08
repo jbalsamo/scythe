@@ -54,9 +54,10 @@ hitslineChart.width(500)
     .legend(dc.legend().x(50).y(10).itemHeight(13).gap(5));
 
 hitslineChart.yAxisLabel("Hits per day");
-hitslineChart.on('filtered.monitor', function(chart, filter) {
-    console.log(filter);
-    chart.render();
+hitslineChart.on('renderlet', function(chart) {
+    chart.selectAll('rect').on("click", function(d) {
+        console.log("click!", d);
+    });
 });
 
 var yearRingChart   = dc.pieChart("#chart-ring-year2");
@@ -65,9 +66,10 @@ yearRingChart
     .dimension(yearDim)
     .group(year_total)
     .innerRadius(0);
-yearRingChart.on('filtered.monitor', function(chart, filter) {
-    console.log(filter);
-    chart.render();
+yearRingChart.on('renderlet', function(chart) {
+    chart.selectAll('rect').on("click", function(d) {
+        console.log("click!", d);
+    });
 });
 
 var datatable   = dc.dataTable("#dc-data-table");
