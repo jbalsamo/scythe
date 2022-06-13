@@ -127,7 +127,7 @@ class Scythe {
                 if(conf.legend != undefined) {
                     this.graphs[conf.id].legend(dc.legend().x(conf.legend.x).y(conf.legend.y).itemHeight(conf.legend.itemHeight).gap(conf.legend.gap));
                 }
-                // this.graphs[conf.id].render();
+                this.graphs[conf.id].turnOnControls(true);
             }
             if(conf.type == 'pieChart') {
                 this.graphs[conf.id] = dc.pieChart(conf.dom_id);
