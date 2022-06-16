@@ -5,7 +5,7 @@
  * @version 1.0
  * @created 2020-03-01
  */
-class Scythe {
+export default class Scythe {
     d3Values = [];
     xfValues = [];
     graphs = [];

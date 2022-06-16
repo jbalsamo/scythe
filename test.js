@@ -1,4 +1,5 @@
-// const gids = ['chart-ring-year'];
+import Scythe from "./scythe.js";
+
 const gids = ['chart-ring-year','chart-line-hitsperday'];
 const tids = [];
 
