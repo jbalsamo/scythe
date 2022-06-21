@@ -87,79 +87,92 @@ export default class Scythe {
         this.config.forEach(conf => {
             console.log(this.xfValues);
             if(conf.type == 'lineChart') {
-                this.graphs[conf.id] = dc.lineChart(conf.dom_id);
+                this.graphs.push(dc.lineChart(conf.dom_id));
+                let lid=this.graphs.length-1;
                 if(conf.width != undefined) {
-                    this.graphs[conf.id].width(conf.width);
+                    this.graphs[lid].width(conf.width);
                 }
                 if(conf.height != undefined) {
-                    this.graphs[conf.id].height(conf.height);
+                    this.graphs[lid].height(conf.height);
                 }
                 if(conf.dimension != undefined) {
-                    this.graphs[conf.id].dimension(conf.dimension);
+                    this.graphs[lid].dimension(conf.dimension);
                 }
                 if(conf.renderArea != undefined) {
-                    this.graphs[conf.id].renderArea(conf.renderArea);
+                    this.graphs[lid].renderArea(conf.renderArea);
                 }
                 if(conf.brushOn != undefined) {
-                    this.graphs[conf.id].brushOn(conf.brushOn);
+                    this.graphs[lid].brushOn(conf.brushOn);
                 }
                 if(conf.group != undefined) {
-                    this.graphs[conf.id].group(this.xfValues[conf.group.field],conf.group.label);
+                    this.graphs[lid].group(this.xfValues[conf.group.field],conf.group.label);
                 }
                 if(conf.stack != undefined) {
                     conf.stack.forEach(s => {
-                        this.graphs[conf.id].stack(this.xfValues[s.field],s.label);
+                        this.graphs[lid].stack(this.xfValues[s.field],s.label);
                     });
                 }
                 if(conf.x != undefined) {
                     if(conf.x.scale != undefined) {
                         if(conf.x.scale.d3 != undefined) {
-                            this.graphs[conf.id].x(d3.scaleTime().domain([this.xfValues['minDate'],this.xfValues['maxDate']]));
+                            this.graphs[lid].x(d3.scaleTime().domain([this.xfValues['minDate'],this.xfValues['maxDate']]));
                         }
                     }
                 }
                 if(conf.yAxisLabel != undefined) {
-                    this.graphs[conf.id].yAxisLabel(conf.yAxisLabel);
+                    this.graphs[lid].yAxisLabel(conf.yAxisLabel);
                 }
                 if(conf.xAxisLabel != undefined) {
-                    this.graphs[conf.id].xAxisLabel(conf.xAxisLabel);
+                    this.graphs[lid].xAxisLabel(conf.xAxisLabel);
                 }
                 if(conf.legend != undefined) {
-                    this.graphs[conf.id].legend(dc.legend().x(conf.legend.x).y(conf.legend.y).itemHeight(conf.legend.itemHeight).gap(conf.legend.gap));
+                    this.graphs[lid].legend(dc.legend().x(conf.legend.x).y(conf.legend.y).itemHeight(conf.legend.itemHeight).gap(conf.legend.gap));
                 }
-                this.graphs[conf.id].turnOnControls(true);
+                this.graphs[lid].turnOnControls(true);
+                //Event Handlers for testing
+                this.graphs[lid].on('filtered.monitor', function(chart, filter) {
+                    console.log(filter);
+                    //dc.renderAll()
+                });
+                this.graphs[lid].on('renderlet', function(chart) {
+                    chart.selectAll('rect').on("click", function(d) {
+                        console.log("click!", d);
+                    });
+                });
             }
             if(conf.type == 'pieChart') {
-                this.graphs[conf.id] = dc.pieChart(conf.dom_id);
+                this.graphs.push(dc.pieChart(conf.dom_id));
+                let lid=this.graphs.length-1;
                 if(conf.width != undefined) {
-                    this.graphs[conf.id].width(conf.width);
+                    this.graphs[lid].width(conf.width);
                 }
                 if(conf.height != undefined) {
-                    this.graphs[conf.id].height(conf.height);
+                    this.graphs[lid].height(conf.height);
                 }
                 if(conf.dimension != undefined) {
-                    this.graphs[conf.id].dimension(conf.dimension);
+                    this.graphs[lid].dimension(conf.dimension);
                 }
                 if(conf.group != undefined) {
-                    this.graphs[conf.id].group(this.xfValues[conf.group.field]);
+                    this.graphs[lid].group(this.xfValues[conf.group.field]);
                 }
                 if(conf.innerRadius != undefined) {
-                    this.graphs[conf.id].innerRadius(conf.innerRadius);
+                    this.graphs[lid].innerRadius(conf.innerRadius);
                 }
-            }
-            this.graphs[conf.id].on('filtered.monitor', function(chart, filter) {
-                console.log(filter);
-            });
-            this.graphs[conf.id].on('renderlet', function(chart) {
-                chart.selectAll('rect').on("click", function(d) {
-                    console.log("click!", d);
+                //Event Handlers for testing
+                this.graphs[lid].on('filtered.monitor', function(chart, filter) {
+                    console.log(filter);
+                    //dc.renderAll()
                 });
-            });
-
+                this.graphs[lid].on('renderlet', function(chart) {
+                    chart.selectAll('rect').on("click", function(d) {
+                        console.log("click!", d);
+                    });
+                });
+            }
             // dc.registerChart(conf.dom_id.replace('#',''),"group1")
         });
         dc.renderAll();
-        console.log(this.xfValues);
+        console.log(this.graphs);
 
     }
 

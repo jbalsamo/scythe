@@ -86,3 +86,7 @@ datatable
         function(d) {return d.total;}
     ]);
 dc.renderAll();
+
+console.log("graphs loaded");
+console.log(hitslineChart);
+console.log(yearRingChart);

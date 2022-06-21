@@ -156,7 +156,7 @@ const ds = [
                 }
             },
             {
-                'id': 2,
+                'id': 1,
                 'name': 'yearRingChart',
                 'dom_id': '#chart-ring-year',
                 'type': 'pieChart',
@@ -197,21 +197,8 @@ function print_filter(filter) {
 var mySc = new Scythe(ds[0],gids,tids);
 
 
-console.log("All Hits by Year: ");
-print_filter(mySc.xfValues['hits']);
-console.log("Year Totals: ");
-print_filter(mySc.xfValues['yearTotal']);
-console.log("200: ");
-print_filter(mySc.xfValues['status_200']);
-console.log("302: ");
-print_filter(mySc.xfValues['status_302']);
-console.log("404: ");
-print_filter(mySc.xfValues['status_404']);
-console.log("date min: ");
-print_filter(mySc.xfValues['minDate']);
-console.log("date max: ");
-print_filter(mySc.xfValues['maxDate']);
+// console.log("All Hits by Year: ");
+// print_filter(mySc.xfValues['hits']);
 
-console.log(mySc.return_xfValues());
-print_filter(mySc.xfValues['yearDim']);
-print_filter(mySc.xfValues['dateDim']);
+// console.log(mySc.return_xfValues());
+console.log(mySc.return_graphs());
