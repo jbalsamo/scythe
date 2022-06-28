@@ -201,4 +201,4 @@ var mySc = new Scythe(ds[0],gids,tids);
 // print_filter(mySc.xfValues['hits']);
 
 // console.log(mySc.return_xfValues());
-console.log(mySc.return_graphs());
+//console.log(mySc.return_graphs());

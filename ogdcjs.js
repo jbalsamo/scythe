@@ -41,8 +41,9 @@ var status_404=dateDim.group().reduceSum(function(d) {return d.http_404;});
 print_filter("data");
 console.log([minDate,maxDate]);
 
-var hitslineChart  = dc.lineChart("#chart-line-hitsperday2");
-hitslineChart.width(500)
+var hitslineChart = dc.lineChart("#chart-line-hitsperday2");
+hitslineChart
+    .width(500)
     .height(300)
     .dimension(dateDim)
     .group(status_200,"200")
@@ -51,26 +52,23 @@ hitslineChart.width(500)
     .renderArea(true)
     .x(d3.scaleTime().domain([minDate, maxDate]))
     .brushOn(true)
-    .legend(dc.legend().x(50).y(10).itemHeight(13).gap(5));
-
-hitslineChart.yAxisLabel("Hits per day");
-hitslineChart.on('renderlet', function(chart) {
-    chart.selectAll('rect').on("click", function(d) {
-        console.log("click!", d);
+    .legend(dc.legend().x(50).y(10).itemHeight(13).gap(5))
+    .yAxisLabel("Hits per day")
+    .on("filtered.monitor", function(d,filter) {
+        console.log(this);
+        print_filter(filter);
     });
-});
 
 var yearRingChart   = dc.pieChart("#chart-ring-year2");
 yearRingChart
     .width(250).height(250)
     .dimension(yearDim)
     .group(year_total)
-    .innerRadius(0);
-yearRingChart.on('renderlet', function(chart) {
-    chart.selectAll('rect').on("click", function(d) {
-        console.log("click!", d);
+    .innerRadius(0)
+    .on("filtered.monitor", function(d,filter) {
+        console.log(this);
+        print_filter(filter);
     });
-});
 
 var datatable   = dc.dataTable("#dc-data-table");
 datatable
