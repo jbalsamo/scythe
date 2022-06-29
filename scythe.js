@@ -149,6 +149,7 @@ export default class Scythe {
                 console.log("Hello, ",this.xfValues);
                 let xf = this.xfValues;
                 this.graphs[lid].on('filtered.monitor', function(chart, filter) {
+                    console.log("in Line chart Handler");
                     if(filter === null) {
                         xf[conf.dimension].filterAll();
                     } else {
@@ -177,7 +178,10 @@ export default class Scythe {
                 }
                 //Event Handlers for testing
                 let xf = this.xfValues;
+                let g = this.graphs[lid];
                 this.graphs[lid].on('filtered.monitor', function(chart, filter) {
+                    console.log(g.filters());
+                    console.log('In Pie Chart');
                     if(filter === null) {
                         xf[conf.dimension].filterAll();
                     } else {
