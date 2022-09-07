@@ -6,7 +6,7 @@ function print_filter(filter) {
     console.log(filter+"("+f.length+") = "+JSON.stringify(f).replace("[","[\n\t").replace(/}\,/g,"},\n\t").replace("]","\n]"));
 }
 
-var data = [
+let data = [
     {'date': "12/27/2012", 'http_404': 22, 'http_200': 190, 'http_302': 100},
     {'date': "12/28/2012", 'http_404': 2, 'http_200': 10, 'http_302': 100},
     {'date': "12/29/2012", 'http_404': 31, 'http_200': 300, 'http_302': 100},
@@ -22,26 +22,26 @@ var data = [
 ];
 
 const ogndx = crossfilter(data);
-var parseDate = d3.timeParse("%m/%d/%Y");
+let parseDate = d3.timeParse("%m/%d/%Y");
 data.forEach(function(d) {
     d.date = parseDate(d.date);
     d.total= d.http_404+d.http_200+d.http_302;
     d.year=d.date.getFullYear();
 });
 print_filter("data");
-var yearDim  = ogndx.dimension(function(d) {return d.year;});
-var year_total = yearDim.group().reduceSum(function(d) {return d.total;});
-var dateDim = ogndx.dimension(function(d) {return d.date;});
-var hits = dateDim.group().reduceSum(dc.pluck('total'));1
-var minDate = dateDim.bottom(1)[0].date;
-var maxDate = dateDim.top(1)[0].date;
-var status_200=dateDim.group().reduceSum(function(d) {return d.http_200;});
-var status_302=dateDim.group().reduceSum(function(d) {return d.http_302;});
-var status_404=dateDim.group().reduceSum(function(d) {return d.http_404;});
+let yearDim  = ogndx.dimension(function(d) {return d.year;});
+let year_total = yearDim.group().reduceSum(function(d) {return d.total;});
+let dateDim = ogndx.dimension(function(d) {return d.date;});
+let hits = dateDim.group().reduceSum(dc.pluck('total'));1
+let minDate = dateDim.bottom(1)[0].date;
+let maxDate = dateDim.top(1)[0].date;
+let status_200=dateDim.group().reduceSum(function(d) {return d.http_200;});
+let status_302=dateDim.group().reduceSum(function(d) {return d.http_302;});
+let status_404=dateDim.group().reduceSum(function(d) {return d.http_404;});
 print_filter("data");
 console.log([minDate,maxDate]);
 
-var hitslineChart = dc.lineChart("#chart-line-hitsperday2");
+let hitslineChart = dc.lineChart("#chart-line-hitsperday2");
 hitslineChart
     .width(500)
     .height(300)
@@ -59,29 +59,42 @@ hitslineChart
         print_filter(filter);
     });
 
-var yearRingChart   = dc.pieChart("#chart-ring-year2");
+let yearRingChart   = dc.pieChart("#chart-ring-year2");
 yearRingChart
     .width(250).height(250)
     .dimension(yearDim)
     .group(year_total)
     .innerRadius(0)
     .on("filtered.monitor", function(d,filter) {
-        console.log(this);
-        print_filter(filter);
+        console.log(filter);
     });
 
-var datatable   = dc.dataTable("#dc-data-table");
+let datatable   = dc.dataTable("#dc-data-table");
 datatable
     .dimension(dateDim)
     .group(function(d) {return d.year;})
     .width(800)
     // dynamic columns creation using an array of closures
     .columns([
-        function(d) { return "<i>"+(d.date.getMonth() + 1) + "/" + d.date.getDate() + "/" +  d.date.getFullYear() + "</i>"; },
-        function(d) {return d.http_200;},
-        function(d) {return d.http_302;},
-        function(d) {return d.http_404;},
-        function(d) {return d.total;}
+        {
+            label:'Date',
+            format: function(d) { return "<i>"+(d.date.getMonth() + 1) + "/" + d.date.getDate() + "/" +  d.date.getFullYear() + "</i>"; }
+        },
+        {
+            label: 'Status 200',
+            format: function(d) {return d.http_200;}
+        },
+        {
+            label: 'Status 302',
+            format: function(d) {return d.http_302;}
+        },
+        {
+            label: 'Status 404',
+            format: function(d) {return d.http_404;}
+        },
+        {
+            label: 'Total',
+            format: function(d) {return d.total;}}
     ]);
 dc.renderAll();
 

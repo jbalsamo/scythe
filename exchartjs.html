@@ -1,0 +1,60 @@
+<html>
+   <head>
+      <title>DC.js Line Chart Sample</title>
+      <link rel = "stylesheet" type = "text/css" href = "css/bootstrap.min.css">
+      <link rel = "stylesheet" type = "text/css" href = "dc.css"/>
+
+      <script src = "https://cdn.jsdelivr.net/npm/d3@7"></script>
+      <script src = "crossfilter.min.js"></script>
+      <script src = "dc.min.js"></script>
+   </head>
+
+   <body>
+      <div>
+         <div id = "line"></div>
+      </div>
+
+      <script type="text/javascript">
+         function print_filter(filter) {
+            let f=eval(filter);
+            if (typeof(f.length) != "undefined") {}else{}
+            if (typeof(f.top) != "undefined") {f=f.top(Infinity);}else{}
+            if (typeof(f.dimension) != "undefined") {f=f.dimension(function(d) { return "";}).top(Infinity);}else{}
+            console.log(filter+"("+f.length+") = "+JSON.stringify(f).replace("[","[\n\t").replace(/}\,/g,"},\n\t").replace("]","\n]"));
+         }
+
+         var chart = new dc.LineChart("#line");
+         d3.csv("morley.csv").then(function(experiments) {
+           console.log(experiments);
+           experiments.forEach(function(x) {
+             x.Speed = +x.Speed;
+           });
+
+           var ndx                 = crossfilter(experiments),
+               runDimension        = ndx.dimension(function(d) {return +d.Run;}),
+               speedSumGroup       = runDimension.group().reduceSum(function(d) {return d.Speed * d.Run / 1000;});
+           print_filter(ndx);
+           print_filter(runDimension);
+           print_filter(speedSumGroup);
+
+           chart
+             .width(768)
+             .height(480)
+             .x(d3.scaleLinear().domain([0,20]))
+             .curve(d3.curveStepBefore)
+             .renderArea(true)
+             .brushOn(false)
+             .renderDataPoints(true)
+             .clipPadding(10)
+             .yAxisLabel("YLabel")
+             .dimension(runDimension)
+             .group(speedSumGroup);
+
+           chart.render();
+
+         });
+
+         </script>
+
+   </body>
+</html>

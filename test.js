@@ -1,8 +1,5 @@
 import Scythe from "./scythe.js";
 
-const gids = ['chart-ring-year','chart-line-hitsperday'];
-const tids = [];
-
 const ds = [
     {
         'd3': [
@@ -43,6 +40,21 @@ const ds = [
             },
             {
                 'id': 2,
+                'name': 'dateDim',
+                'type': 'dimension',
+                'dim_field': 'date',
+            },
+            {
+                'id': 3,
+                'name': 'dateGroup',
+                'type': 'group',
+                'dimension': 'dateDim',
+                'group_method': 'reduceSum',
+                'field_function': 'custom',
+                'custom_function': function(d) {return (d.http_200 + d.http_302 + d.http_404)}
+            },
+            {
+                'id': 4,
                 'name': 'yearTotal',
                 'type': 'group',
                 'dimension': 'yearDim',
@@ -51,27 +63,21 @@ const ds = [
                 'group_field': 'total'
             },
             {
-                'id': 3,
-                'name': 'dateDim',
-                'type': 'dimension',
-                'dim_field': 'date',
-            },
-            {
-                'id': 4,
+                'id': 5,
                 'name': 'minDate',
                 'type': 'bottom',
                 'dimension': 'dateDim',
                 'field': 'date'
             },
             {
-                'id': 5,
+                'id': 6,
                 'name': 'maxDate',
                 'type': 'top',
                 'dimension': 'dateDim',
                 'field': 'date'
             },
             {
-                'id':  6,
+                'id':  7,
                 'name': 'hits',
                 'type': 'group',
                 'dimension': 'yearDim',
@@ -80,7 +86,7 @@ const ds = [
                 'group_field': 'total',
             },
             {
-                'id': 7,
+                'id': 8,
                 'type': 'group',
                 'name': 'status_200',
                 'dimension': 'dateDim',
@@ -89,7 +95,7 @@ const ds = [
                 'group_field': 'http_200'
             },
             {
-                'id': 8,
+                'id': 9,
                 'type': 'group',
                 'name': 'status_302',
                 'dimension': 'dateDim',
@@ -98,7 +104,7 @@ const ds = [
                 'group_field': 'http_302'
             },
             {
-                'id': 9,
+                'id': 10,
                 'type': 'group',
                 'name': 'status_404',
                 'dimension': 'dateDim',
@@ -156,7 +162,7 @@ const ds = [
                 }
             },
             {
-                'id': 1,
+                'id': 2,
                 'name': 'yearRingChart',
                 'dom_id': '#chart-ring-year',
                 'type': 'pieChart',
@@ -167,6 +173,73 @@ const ds = [
                     'field': 'yearTotal',
                 },
                 'innerRadius': 0
+            },
+            {
+                'id': 3,
+                'name': 'hitsBarChart',
+                'dom_id': '#chart-bar-hitsperday',
+                'type': 'barChart',
+                'width': 500,
+                'height': 300,
+                'brushOn': true,
+                'dimension': 'dateDim',
+                'group': {
+                    'field': 'dateGroup',
+                    'label': 'Hits',
+                },
+                'x': {
+                    'scale': {
+                        'd3': [
+                            {
+                                'id': 1,
+                                'name': 'xScale',
+                                'type': 'scaleTime',
+                                'function': 'domain',
+                                'min': 'minDate',
+                                'max': 'maxDate',
+                            }
+                        ]
+                    }
+                },
+                'yAxisLabel': 'Hits per day',
+                'xAxisLabel': 'Date',
+                'legend': {
+                    'x': 50,
+                    'y': 10,
+                    'itemHeight': 13,
+                    'gap': 5,
+                }
+            },
+            {
+                'id': 4,
+                'type': 'dataTable',
+                'name': 'dataTable2',
+                'dom_id': '#dc-data-table-2',
+                'dimension': 'dateDim',
+                'group': function(d) {return d.year;},
+                'width': 800,
+                'columns': [
+                    {
+                        label:'Date',
+                        format: function(d) { return "<i>"+(d.date.getMonth() + 1) + "/" + d.date.getDate() + "/" +  d.date.getFullYear() + "</i>"; }
+                    },
+                    {
+                        label: 'Status 200',
+                        format: function(d) {return d.http_200;}
+                    },
+                    {
+                        label: 'Status 302',
+                        format: function(d) {return d.http_302;}
+                    },
+                    {
+                        label: 'Status 404',
+                        format: function(d) {return d.http_404;}
+                    },
+                    {
+                        label: 'Total',
+                        format: function(d) {return d.total;}
+                    }
+                ]
             }
         ],
         'data': [
@@ -187,18 +260,11 @@ const ds = [
 ];
 
 function print_filter(filter) {
-    var f=eval(filter);
+    let f=eval(filter);
     if (typeof(f.length) != 'undefined') {}else{}
     if (typeof(f.top) != 'undefined') {f=f.top(Infinity);}else{}
     if (typeof(f.dimension) != 'undefined') {f=f.dimension(function(d) { return '';}).top(Infinity);}else{}
     console.log(filter+'('+f.length+') = '+JSON.stringify(f).replace('[','[\n\t').replace(/}\,/g,'},\n\t').replace(']','\n]'));
 }
 
-var mySc = new Scythe(ds[0],gids,tids);
-
-
-// console.log("All Hits by Year: ");
-// print_filter(mySc.xfValues['hits']);
-
-// console.log(mySc.return_xfValues());
-//console.log(mySc.return_graphs());
+const mySc = new Scythe(ds[0]);
