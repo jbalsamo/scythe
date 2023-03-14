@@ -48,21 +48,32 @@
         <p>This is a test of the Scythe library.</p>
       </div>
     </div>
-    <table>
-      <tr>
-        <td><div id="chart-line-hitsperday"></div></td>
-        <td><div id="chart-bar-hitsperday"></div></td>
-      </tr>
-      <tr>
-        <td><div id="chart-ring-year"></div></td>
-        <td>
-          <div id="chart-scatterplot"></div>
-        </td>
-      </tr>
-      <tr>
-        <td><div id="dc-data-table-2"></div></td>
-      </tr>
-    </table>
+    <div class="dashboard">
+      <div class="grid-item">
+        <div class="title">Hits per Day - Lines</div>
+        <div id="chart-line-hitsperday"></div>
+      </div>
+      <div class="grid-item">
+        <div class="title">Total Hits per Day</div>
+        <div id="chart-bar-hitsperday"></div>
+      </div>
+      <div class="grid-item">
+        <div class="title">Total per Year</div>
+        <div id="chart-ring-year"></div>
+      </div>
+      <div class="grid-item">
+        <div class="title">
+          Plot of Hits per Day<br />
+          by Percentage of Total
+        </div>
+        <div id="chart-scatterplot"></div>
+      </div>
+      <div class="grid-item">
+        <div class="title">Log Data</div>
+        <div id="dc-data-table-2"></div>
+      </div>
+    </div>
+
     <script src="./test.js" type="module"></script>
     <script type="text/javascript">
       console.log("Scythe Demo");

@@ -189,6 +189,7 @@ const ds = [
         type: "pieChart",
         width: 250,
         height: 250,
+        margins: 20,
         cx: 125,
         dimension: "yearDim",
         group: {
@@ -293,7 +294,9 @@ const ds = [
         height: 300,
         symbolSize: 8,
         clipPadding: 5,
+        brushOn: true,
         dimension: "analysisDim",
+        assoc_dimension: ["dateDim", "yearDim"],
         group: {
           field: "analysisGroup",
           label: "Percent",

@@ -7,7 +7,7 @@
  */
 
 const scprint_filter = (filter) => {
-  var f = eval(filter);
+  let f = eval(filter);
   if (typeof f.length != "undefined") {
   } else {
   }
@@ -157,6 +157,9 @@ export default class Scythe {
         if (conf.height != undefined) {
           this.graphs[lid].height(conf.height);
         }
+        // if (conf.margins != undefined) {
+        //   this.graphs[lid].margins().left = conf.margins;
+        // }
         if (conf.dimension != undefined) {
           this.graphs[lid].dimension(this.xfValues[conf.dimension]);
         }
@@ -208,7 +211,7 @@ export default class Scythe {
         this.graphs[lid].on("filtered.monitor", function (chart, filter) {
           console.log("in bar chart Handler");
           if (filter === null) {
-            xf[conf.dimension].filterAll();
+            xf[conf.dimension].filter(null);
           } else {
             xf[conf.dimension].filterRange(filter);
           }
@@ -226,6 +229,9 @@ export default class Scythe {
         if (conf.height != undefined) {
           this.graphs[lid].height(conf.height);
         }
+        // if (conf.margins != undefined) {
+        //   this.graphs[lid].margins().left = conf.margins;
+        // }
         if (conf.dimension != undefined) {
           this.graphs[lid].dimension(this.xfValues[conf.dimension]);
           console.log(this.xfValues);
@@ -284,7 +290,7 @@ export default class Scythe {
         this.graphs[lid].on("filtered.monitor", function (chart, filter) {
           console.log("in Line chart Handler");
           if (filter === null) {
-            xf[conf.dimension].filterAll();
+            xf[conf.dimension].filter(null);
           } else {
             xf[conf.dimension].filterRange(filter);
           }
@@ -378,11 +384,7 @@ export default class Scythe {
         let xf = this.xfValues;
         this.graphs[lid].on("filtered.monitor", function (chart, filter) {
           console.log("in ScatterPlot chart Handler");
-          if (filter === null) {
-            xf[conf.dimension].filterAll();
-          } else {
-            xf[conf.dimension].filterRange(filter);
-          }
+          console.log("🚀 ~ file: scythe.js:389 ~ Scythe ~ filter:", filter);
           dc.renderAll();
         });
       }
@@ -397,6 +399,10 @@ export default class Scythe {
         if (conf.height != undefined) {
           this.graphs[lid].height(conf.height);
         }
+        // if (conf.margins != undefined) {
+        //   this.graphs[lid].margins().left = conf.margins;
+        //   this.graphs[lid].margins().top = conf.margins;
+        // }
         if (conf.cx != undefined) {
           this.graphs[lid].cx(conf.cx);
         }
@@ -416,7 +422,6 @@ export default class Scythe {
           .on("filtered.monitor", function (chart, filter) {
             console.log(filter);
             console.log(g.filter());
-
             console.log("In Pie Chart");
             // if(filter == []) {
             //     xf[conf.dimension].filterAll();
@@ -444,6 +449,10 @@ export default class Scythe {
         if (conf.height != undefined) {
           this.graphs[lid].height(conf.height);
         }
+        // if (conf.margins != undefined) {
+        //   this.graphs[lid].margins().left = conf.margins;
+        //   this.graphs[lid].margins().top = conf.margins;
+        // }
         if (conf.dimension != undefined) {
           this.graphs[lid].dimension(this.xfValues[conf.dimension]);
         }
