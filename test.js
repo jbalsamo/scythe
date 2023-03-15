@@ -292,9 +292,8 @@ const ds = [
         type: "scatterplot",
         width: 500,
         height: 300,
-        symbolSize: 8,
-        clipPadding: 5,
-        brushOn: true,
+        symbolSize: 5,
+        clipPadding: 10,
         dimension: "analysisDim",
         assoc_dimension: ["dateDim", "yearDim"],
         group: {
